@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: httpserver-config
+  namespace: default
+data:
+  ADDR_PORT: "8080"
+  LOG_LEVEL: ERROR

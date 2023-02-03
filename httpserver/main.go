@@ -20,11 +20,14 @@ func main() {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
+	addrPort := os.Getenv("ADDR_PORT")
+	glog.Infof("Env variable ADDR_PORT: %v", addrPort)
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", indexHandler)
 	mux.HandleFunc("/healthz", healthzHandler)
 	srv := &http.Server{
-		Addr:    ":80",
+		Addr:    ":" + addrPort,
 		Handler: mux,
 	}
 
@@ -47,7 +50,7 @@ func main() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	glog.V(4).Info("enter index handler")
+	glog.V(4).Info("Entering index handler")
 	headers := make(http.Header)
 	for k, v := range r.Header {
 		headers[strings.ToLower(k)] = v
@@ -60,7 +63,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {
-	glog.V(4).Info("enter healthz handler")
+	glog.V(4).Info("Entering healthz handler")
 	glog.Infof("client request uri: %v", r.RequestURI)
 
 	w.WriteHeader(http.StatusOK)
