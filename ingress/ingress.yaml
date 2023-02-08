@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-api-gateway
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+    - hosts:
+        - learncn.com
+      secretName: learncn-tls
+  rules:
+    - host: learncn.com
+      http:
+        paths:             
+          - path: "/foo"
+            pathType: Prefix
+            backend:
+              service:
+                name: httpserver1-service
+                port:
+                  number: 8081
+          - path: "/bar"
+            pathType: Prefix
+            backend:
+              service:
+                name: httpserver2-service
+                port:
+                  number: 8082
+          - path: "/foobar"
+            pathType: Prefix
+            backend:
+              service:
+                name: httpserver3-service
+                port:
+                  number: 8083

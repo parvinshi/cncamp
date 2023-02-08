@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpserver2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpserver2
+  template:
+    metadata:
+      labels:
+        app: httpserver2
+    spec:    
+      containers:
+        - name: httpserver-container
+          image: parvinshi/httpserver:v2
+          envFrom:
+          - configMapRef:
+              name: httpserver2-config
+              optional: true
+          resources:
+            limits:
+                cpu: 1000m
+                memory: 1Gi
+            requests:
+                cpu: 100m
+                memory: 100Mi
+          imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "echo Execing the postStart handler"]
+            preStop:
+              exec:
+                command: ["/bin/sh","-c","echo Execing the preStop handler; sleep 3"]
+          readinessProbe:
+            tcpSocket:
+              port: 8082
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8082
+              httpHeaders:
+              - name: Liveness-Probe
+                value: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8082
+            failureThreshold: 30
+            periodSeconds: 10
