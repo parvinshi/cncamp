@@ -22,16 +22,26 @@ func main() {
 
 	addrPort := os.Getenv("ADDR_PORT")
 	glog.Infof("Env variable ADDR_PORT: %v", addrPort)
+	if len(addrPort) == 0 {
+		addrPort = ":8080"
+	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/foo", indexHandler)
+	mux.HandleFunc("/bar", barHandler)
+	mux.HandleFunc("/foobar", foobarHandler)
 	mux.HandleFunc("/healthz", healthzHandler)
 	srv := &http.Server{
 		Addr:    ":" + addrPort,
 		Handler: mux,
 	}
 
-	go srv.ListenAndServe()
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			glog.Fatalf("HTTP ListenAndServe Error: %s\n", err)
+		}
+	}()
 	glog.Info("Server started")
 
 	<-sig
@@ -60,6 +70,51 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 	glog.Infof("client ip:port -> %v", r.RemoteAddr)
 	glog.Infof("headers:%+v", headers)
+}
+
+func fooHandler(w http.ResponseWriter, r *http.Request) {
+	glog.V(4).Info("Entering foo handler")
+	headers := make(http.Header)
+	for k, v := range r.Header {
+		headers[strings.ToLower(k)] = v
+
+		w.Header().Add(k, r.Header.Get(k))
+	}
+
+	glog.Infof("client ip:port -> %v", r.RemoteAddr)
+	glog.Infof("headers:%+v", headers)
+
+	w.Write([]byte("foo"))
+}
+
+func barHandler(w http.ResponseWriter, r *http.Request) {
+	glog.V(4).Info("Entering bar handler")
+	headers := make(http.Header)
+	for k, v := range r.Header {
+		headers[strings.ToLower(k)] = v
+
+		w.Header().Add(k, r.Header.Get(k))
+	}
+
+	glog.Infof("client ip:port -> %v", r.RemoteAddr)
+	glog.Infof("headers:%+v", headers)
+
+	w.Write([]byte("bar"))
+}
+
+func foobarHandler(w http.ResponseWriter, r *http.Request) {
+	glog.V(4).Info("Entering foobar handler")
+	headers := make(http.Header)
+	for k, v := range r.Header {
+		headers[strings.ToLower(k)] = v
+
+		w.Header().Add(k, r.Header.Get(k))
+	}
+
+	glog.Infof("client ip:port -> %v", r.RemoteAddr)
+	glog.Infof("headers:%+v", headers)
+
+	w.Write([]byte("foobar"))
 }
 
 func healthzHandler(w http.ResponseWriter, r *http.Request) {
