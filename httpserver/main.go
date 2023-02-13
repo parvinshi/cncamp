@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
@@ -11,26 +13,32 @@ import (
 	"time"
 
 	"github.com/golang/glog"
+	"github.com/parvinshi/cncamp/metrics"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
 	flag.Set("v", "4")
 	glog.V(2).Info("Starting HTTP server...")
+	metrics.Register()
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	addrPort := os.Getenv("ADDR_PORT")
 	glog.Infof("Env variable ADDR_PORT: %v", addrPort)
-	if len(addrPort) == 0 {
-		addrPort = ":8080"
+	if addrPort == "" {
+		addrPort = "8080"
 	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", indexHandler)
-	mux.HandleFunc("/foo", indexHandler)
+	mux.HandleFunc("/foo", fooHandler)
 	mux.HandleFunc("/bar", barHandler)
 	mux.HandleFunc("/foobar", foobarHandler)
+	mux.HandleFunc("/latency", latencyHandler)
+	mux.Handle("/metrics", promhttp.Handler())
 	mux.HandleFunc("/healthz", healthzHandler)
 	srv := &http.Server{
 		Addr:    ":" + addrPort,
@@ -70,6 +78,15 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 
 	glog.Infof("client ip:port -> %v", r.RemoteAddr)
 	glog.Infof("headers:%+v", headers)
+}
+
+func latencyHandler(w http.ResponseWriter, r *http.Request) {
+	glog.V(4).Info("Entering latency handler")
+	timer := metrics.NewTimer()
+	defer timer.ObserveTotal()
+	randInt := rand.Intn(2000)
+	time.Sleep(time.Millisecond * time.Duration(randInt))
+	w.Write([]byte(fmt.Sprintf("<h1>latency %d<h1>", randInt)))
 }
 
 func fooHandler(w http.ResponseWriter, r *http.Request) {

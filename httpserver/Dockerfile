@@ -10,6 +10,6 @@ FROM ubuntu
 COPY --from=builder /build/bin/amd64/httpserver / 
 ENTRYPOINT ["/httpserver"]
 
-# docker build -t parvinshi/httpserver:v2 .
-# docker run -d -p 8080:8080 parvinshi/httpserver:v1 httpserver /bin/bash
+# docker build -t parvinshi/httpserver:v3 .
+# docker run -d -p 8080:8080 parvinshi/httpserver:v3 httpserver /bin/bash
 # docker logs -f eb7ec007f550
