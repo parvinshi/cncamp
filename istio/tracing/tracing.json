@@ -1,0 +1,660 @@
+{
+    "data": [
+        {
+            "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+            "spans": [
+                {
+                    "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                    "spanID": "3cdd24005fc7bea0",
+                    "operationName": "httpserver-svc1.tracing.svc.cluster.local:8081/*",
+                    "references": [],
+                    "startTime": 1676897407611854,
+                    "duration": 37906,
+                    "tags": [
+                        {
+                            "key": "istio.canonical_service",
+                            "type": "string",
+                            "value": "httpserver1"
+                        },
+                        {
+                            "key": "http.protocol",
+                            "type": "string",
+                            "value": "HTTP/1.1"
+                        },
+                        {
+                            "key": "component",
+                            "type": "string",
+                            "value": "proxy"
+                        },
+                        {
+                            "key": "upstream_cluster.name",
+                            "type": "string",
+                            "value": "inbound|8081||"
+                        },
+                        {
+                            "key": "downstream_cluster",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "upstream_cluster",
+                            "type": "string",
+                            "value": "inbound|8081||"
+                        },
+                        {
+                            "key": "istio.namespace",
+                            "type": "string",
+                            "value": "tracing"
+                        },
+                        {
+                            "key": "http.url",
+                            "type": "string",
+                            "value": "http://localhost:30446/foo"
+                        },
+                        {
+                            "key": "istio.canonical_revision",
+                            "type": "string",
+                            "value": "latest"
+                        },
+                        {
+                            "key": "http.status_code",
+                            "type": "string",
+                            "value": "200"
+                        },
+                        {
+                            "key": "user_agent",
+                            "type": "string",
+                            "value": "curl/7.68.0"
+                        },
+                        {
+                            "key": "node_id",
+                            "type": "string",
+                            "value": "sidecar~192.168.198.224~httpserver1-85b8fddc68-q9b8b.tracing~tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "peer.address",
+                            "type": "string",
+                            "value": "10.0.12.4"
+                        },
+                        {
+                            "key": "http.method",
+                            "type": "string",
+                            "value": "GET"
+                        },
+                        {
+                            "key": "request_size",
+                            "type": "string",
+                            "value": "0"
+                        },
+                        {
+                            "key": "guid:x-request-id",
+                            "type": "string",
+                            "value": "995ce541-e8da-98e5-8ae3-fdb2cf5e33e9"
+                        },
+                        {
+                            "key": "istio.mesh_id",
+                            "type": "string",
+                            "value": "cluster.local"
+                        },
+                        {
+                            "key": "response_size",
+                            "type": "string",
+                            "value": "1112"
+                        },
+                        {
+                            "key": "response_flags",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "span.kind",
+                            "type": "string",
+                            "value": "server"
+                        },
+                        {
+                            "key": "internal.span.format",
+                            "type": "string",
+                            "value": "zipkin"
+                        }
+                    ],
+                    "logs": [],
+                    "processID": "p1",
+                    "warnings": null
+                },
+                {
+                    "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                    "spanID": "ae8d8da91ed14365",
+                    "operationName": "httpserver-svc2.tracing.svc.cluster.local:8082/*",
+                    "references": [
+                        {
+                            "refType": "CHILD_OF",
+                            "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                            "spanID": "3cdd24005fc7bea0"
+                        }
+                    ],
+                    "startTime": 1676897407623727,
+                    "duration": 25486,
+                    "tags": [
+                        {
+                            "key": "http.url",
+                            "type": "string",
+                            "value": "http://httpserver-svc2:8082/bar"
+                        },
+                        {
+                            "key": "guid:x-request-id",
+                            "type": "string",
+                            "value": "995ce541-e8da-98e5-8ae3-fdb2cf5e33e9"
+                        },
+                        {
+                            "key": "request_size",
+                            "type": "string",
+                            "value": "0"
+                        },
+                        {
+                            "key": "user_agent",
+                            "type": "string",
+                            "value": "Go-http-client/1.1,curl/7.68.0"
+                        },
+                        {
+                            "key": "node_id",
+                            "type": "string",
+                            "value": "sidecar~192.168.198.224~httpserver1-85b8fddc68-q9b8b.tracing~tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "istio.namespace",
+                            "type": "string",
+                            "value": "tracing"
+                        },
+                        {
+                            "key": "upstream_cluster",
+                            "type": "string",
+                            "value": "outbound|8082||httpserver-svc2.tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "response_flags",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "http.status_code",
+                            "type": "string",
+                            "value": "200"
+                        },
+                        {
+                            "key": "istio.canonical_revision",
+                            "type": "string",
+                            "value": "latest"
+                        },
+                        {
+                            "key": "component",
+                            "type": "string",
+                            "value": "proxy"
+                        },
+                        {
+                            "key": "istio.mesh_id",
+                            "type": "string",
+                            "value": "cluster.local"
+                        },
+                        {
+                            "key": "http.protocol",
+                            "type": "string",
+                            "value": "HTTP/1.1"
+                        },
+                        {
+                            "key": "response_size",
+                            "type": "string",
+                            "value": "855"
+                        },
+                        {
+                            "key": "downstream_cluster",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "http.method",
+                            "type": "string",
+                            "value": "GET"
+                        },
+                        {
+                            "key": "istio.canonical_service",
+                            "type": "string",
+                            "value": "httpserver1"
+                        },
+                        {
+                            "key": "upstream_cluster.name",
+                            "type": "string",
+                            "value": "outbound|8082||httpserver-svc2.tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "peer.address",
+                            "type": "string",
+                            "value": "192.168.198.224"
+                        },
+                        {
+                            "key": "span.kind",
+                            "type": "string",
+                            "value": "client"
+                        },
+                        {
+                            "key": "internal.span.format",
+                            "type": "string",
+                            "value": "zipkin"
+                        }
+                    ],
+                    "logs": [],
+                    "processID": "p1",
+                    "warnings": null
+                },
+                {
+                    "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                    "spanID": "d3c9ba822ac93264",
+                    "operationName": "httpserver-svc2.tracing.svc.cluster.local:8082/*",
+                    "references": [
+                        {
+                            "refType": "CHILD_OF",
+                            "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                            "spanID": "ae8d8da91ed14365"
+                        }
+                    ],
+                    "startTime": 1676897407624074,
+                    "duration": 24789,
+                    "tags": [
+                        {
+                            "key": "upstream_cluster",
+                            "type": "string",
+                            "value": "inbound|8082||"
+                        },
+                        {
+                            "key": "response_size",
+                            "type": "string",
+                            "value": "855"
+                        },
+                        {
+                            "key": "peer.address",
+                            "type": "string",
+                            "value": "192.168.198.224"
+                        },
+                        {
+                            "key": "http.method",
+                            "type": "string",
+                            "value": "GET"
+                        },
+                        {
+                            "key": "istio.namespace",
+                            "type": "string",
+                            "value": "tracing"
+                        },
+                        {
+                            "key": "http.protocol",
+                            "type": "string",
+                            "value": "HTTP/1.1"
+                        },
+                        {
+                            "key": "guid:x-request-id",
+                            "type": "string",
+                            "value": "995ce541-e8da-98e5-8ae3-fdb2cf5e33e9"
+                        },
+                        {
+                            "key": "istio.mesh_id",
+                            "type": "string",
+                            "value": "cluster.local"
+                        },
+                        {
+                            "key": "request_size",
+                            "type": "string",
+                            "value": "0"
+                        },
+                        {
+                            "key": "downstream_cluster",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "response_flags",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "istio.canonical_revision",
+                            "type": "string",
+                            "value": "latest"
+                        },
+                        {
+                            "key": "component",
+                            "type": "string",
+                            "value": "proxy"
+                        },
+                        {
+                            "key": "user_agent",
+                            "type": "string",
+                            "value": "Go-http-client/1.1,curl/7.68.0"
+                        },
+                        {
+                            "key": "http.status_code",
+                            "type": "string",
+                            "value": "200"
+                        },
+                        {
+                            "key": "upstream_cluster.name",
+                            "type": "string",
+                            "value": "inbound|8082||"
+                        },
+                        {
+                            "key": "http.url",
+                            "type": "string",
+                            "value": "http://httpserver-svc2:8082/bar"
+                        },
+                        {
+                            "key": "istio.canonical_service",
+                            "type": "string",
+                            "value": "httpserver2"
+                        },
+                        {
+                            "key": "node_id",
+                            "type": "string",
+                            "value": "sidecar~192.168.198.248~httpserver2-bc46fc9c4-wt554.tracing~tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "span.kind",
+                            "type": "string",
+                            "value": "server"
+                        },
+                        {
+                            "key": "internal.span.format",
+                            "type": "string",
+                            "value": "zipkin"
+                        }
+                    ],
+                    "logs": [],
+                    "processID": "p2",
+                    "warnings": null
+                },
+                {
+                    "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                    "spanID": "4a76f8d02ce3375c",
+                    "operationName": "httpserver-svc3.tracing.svc.cluster.local:8083/*",
+                    "references": [
+                        {
+                            "refType": "CHILD_OF",
+                            "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                            "spanID": "d3c9ba822ac93264"
+                        }
+                    ],
+                    "startTime": 1676897407635920,
+                    "duration": 12478,
+                    "tags": [
+                        {
+                            "key": "http.method",
+                            "type": "string",
+                            "value": "GET"
+                        },
+                        {
+                            "key": "peer.address",
+                            "type": "string",
+                            "value": "192.168.198.248"
+                        },
+                        {
+                            "key": "upstream_cluster",
+                            "type": "string",
+                            "value": "outbound|8083||httpserver-svc3.tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "http.protocol",
+                            "type": "string",
+                            "value": "HTTP/1.1"
+                        },
+                        {
+                            "key": "response_flags",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "node_id",
+                            "type": "string",
+                            "value": "sidecar~192.168.198.248~httpserver2-bc46fc9c4-wt554.tracing~tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "component",
+                            "type": "string",
+                            "value": "proxy"
+                        },
+                        {
+                            "key": "response_size",
+                            "type": "string",
+                            "value": "617"
+                        },
+                        {
+                            "key": "istio.namespace",
+                            "type": "string",
+                            "value": "tracing"
+                        },
+                        {
+                            "key": "request_size",
+                            "type": "string",
+                            "value": "0"
+                        },
+                        {
+                            "key": "istio.mesh_id",
+                            "type": "string",
+                            "value": "cluster.local"
+                        },
+                        {
+                            "key": "downstream_cluster",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "istio.canonical_revision",
+                            "type": "string",
+                            "value": "latest"
+                        },
+                        {
+                            "key": "upstream_cluster.name",
+                            "type": "string",
+                            "value": "outbound|8083||httpserver-svc3.tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "user_agent",
+                            "type": "string",
+                            "value": "Go-http-client/1.1,Go-http-client/1.1,curl/7.68.0"
+                        },
+                        {
+                            "key": "http.url",
+                            "type": "string",
+                            "value": "http://httpserver-svc3:8083/foobar"
+                        },
+                        {
+                            "key": "guid:x-request-id",
+                            "type": "string",
+                            "value": "995ce541-e8da-98e5-8ae3-fdb2cf5e33e9"
+                        },
+                        {
+                            "key": "http.status_code",
+                            "type": "string",
+                            "value": "200"
+                        },
+                        {
+                            "key": "istio.canonical_service",
+                            "type": "string",
+                            "value": "httpserver2"
+                        },
+                        {
+                            "key": "span.kind",
+                            "type": "string",
+                            "value": "client"
+                        },
+                        {
+                            "key": "internal.span.format",
+                            "type": "string",
+                            "value": "zipkin"
+                        }
+                    ],
+                    "logs": [],
+                    "processID": "p2",
+                    "warnings": null
+                },
+                {
+                    "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                    "spanID": "08ccf3bdcbc0b857",
+                    "operationName": "httpserver-svc3.tracing.svc.cluster.local:8083/*",
+                    "references": [
+                        {
+                            "refType": "CHILD_OF",
+                            "traceID": "ea9f83a0bccb58873cdd24005fc7bea0",
+                            "spanID": "4a76f8d02ce3375c"
+                        }
+                    ],
+                    "startTime": 1676897407636228,
+                    "duration": 11741,
+                    "tags": [
+                        {
+                            "key": "upstream_cluster.name",
+                            "type": "string",
+                            "value": "inbound|8083||"
+                        },
+                        {
+                            "key": "http.protocol",
+                            "type": "string",
+                            "value": "HTTP/1.1"
+                        },
+                        {
+                            "key": "peer.address",
+                            "type": "string",
+                            "value": "192.168.198.248"
+                        },
+                        {
+                            "key": "istio.mesh_id",
+                            "type": "string",
+                            "value": "cluster.local"
+                        },
+                        {
+                            "key": "node_id",
+                            "type": "string",
+                            "value": "sidecar~192.168.198.217~httpserver3-559c976d-flzx7.tracing~tracing.svc.cluster.local"
+                        },
+                        {
+                            "key": "istio.canonical_revision",
+                            "type": "string",
+                            "value": "latest"
+                        },
+                        {
+                            "key": "upstream_cluster",
+                            "type": "string",
+                            "value": "inbound|8083||"
+                        },
+                        {
+                            "key": "downstream_cluster",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "component",
+                            "type": "string",
+                            "value": "proxy"
+                        },
+                        {
+                            "key": "response_size",
+                            "type": "string",
+                            "value": "617"
+                        },
+                        {
+                            "key": "istio.namespace",
+                            "type": "string",
+                            "value": "tracing"
+                        },
+                        {
+                            "key": "user_agent",
+                            "type": "string",
+                            "value": "Go-http-client/1.1,Go-http-client/1.1,curl/7.68.0"
+                        },
+                        {
+                            "key": "request_size",
+                            "type": "string",
+                            "value": "0"
+                        },
+                        {
+                            "key": "istio.canonical_service",
+                            "type": "string",
+                            "value": "httpserver3"
+                        },
+                        {
+                            "key": "response_flags",
+                            "type": "string",
+                            "value": "-"
+                        },
+                        {
+                            "key": "http.status_code",
+                            "type": "string",
+                            "value": "200"
+                        },
+                        {
+                            "key": "http.method",
+                            "type": "string",
+                            "value": "GET"
+                        },
+                        {
+                            "key": "guid:x-request-id",
+                            "type": "string",
+                            "value": "995ce541-e8da-98e5-8ae3-fdb2cf5e33e9"
+                        },
+                        {
+                            "key": "http.url",
+                            "type": "string",
+                            "value": "http://httpserver-svc3:8083/foobar"
+                        },
+                        {
+                            "key": "span.kind",
+                            "type": "string",
+                            "value": "server"
+                        },
+                        {
+                            "key": "internal.span.format",
+                            "type": "string",
+                            "value": "zipkin"
+                        }
+                    ],
+                    "logs": [],
+                    "processID": "p3",
+                    "warnings": null
+                }
+            ],
+            "processes": {
+                "p1": {
+                    "serviceName": "httpserver1.tracing",
+                    "tags": [
+                        {
+                            "key": "ip",
+                            "type": "string",
+                            "value": "192.168.198.224"
+                        }
+                    ]
+                },
+                "p2": {
+                    "serviceName": "httpserver2.tracing",
+                    "tags": [
+                        {
+                            "key": "ip",
+                            "type": "string",
+                            "value": "192.168.198.248"
+                        }
+                    ]
+                },
+                "p3": {
+                    "serviceName": "httpserver3.tracing",
+                    "tags": [
+                        {
+                            "key": "ip",
+                            "type": "string",
+                            "value": "192.168.198.217"
+                        }
+                    ]
+                }
+            },
+            "warnings": null
+        }
+    ],
+    "total": 0,
+    "limit": 0,
+    "offset": 0,
+    "errors": null
+}

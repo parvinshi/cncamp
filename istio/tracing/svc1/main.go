@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
 	"math/rand"
 	"net/http"
 	"os"
@@ -18,6 +19,21 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
+var addrPort string
+var upstreamPort string
+
+func init() {
+	addrPort = os.Getenv("ADDR_PORT") //addrPort赋值=换成:=，会在init()重新定义addrPort，其他函数获取的全局addrPort会是空字符串
+	upstreamPort = os.Getenv("UPSTREAM_PORT")
+	if addrPort == "" {
+		addrPort = "80"
+	}
+
+	if upstreamPort == "" {
+		upstreamPort = "80"
+	}
+}
+
 func main() {
 	flag.Set("v", "4")
 	glog.V(2).Info("Starting HTTP server...")
@@ -26,11 +42,8 @@ func main() {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
-	addrPort := os.Getenv("ADDR_PORT")
-	if addrPort == "" {
-		addrPort = "80"
-	}
 	glog.Infof("Env variable ADDR_PORT: %v", addrPort)
+	glog.Infof("Env variable UPSTREAM_PORT: %v", upstreamPort)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", indexHandler)
@@ -91,6 +104,15 @@ func latencyHandler(w http.ResponseWriter, r *http.Request) {
 
 func fooHandler(w http.ResponseWriter, r *http.Request) {
 	glog.V(4).Info("Entering foo handler")
+
+	delay := rand.Intn(20)
+	time.Sleep(time.Millisecond * time.Duration(delay))
+	io.WriteString(w, "===================Details of the http request header:============\n")
+	req, err := http.NewRequest("GET", "http://httpserver-svc2:"+upstreamPort+"/bar", nil)
+	if err != nil {
+		fmt.Printf("%s", err)
+	}
+
 	headers := make(http.Header)
 	for k, v := range r.Header {
 		headers[strings.ToLower(k)] = v
@@ -100,6 +122,19 @@ func fooHandler(w http.ResponseWriter, r *http.Request) {
 
 	glog.Infof("client ip:port -> %v", r.RemoteAddr)
 	glog.Infof("headers:%+v", headers)
+
+	req.Header = headers
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		glog.Info("HTTP get failed with error: ", "error", err)
+	} else {
+		glog.Info("HTTP get succeeded")
+	}
+	if resp != nil {
+		resp.Write(w)
+	}
+	glog.V(4).Infof("Respond in %d ms", delay)
 
 	w.Write([]byte("foo"))
 }

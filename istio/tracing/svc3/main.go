@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
 	"math/rand"
 	"net/http"
 	"os"
@@ -18,6 +19,21 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
+var addrPort string
+var upstreamPort string
+
+func init() {
+	addrPort = os.Getenv("ADDR_PORT")
+	upstreamPort = os.Getenv("UPSTREAM_PORT")
+	if addrPort == "" {
+		addrPort = "80"
+	}
+
+	if upstreamPort == "" {
+		upstreamPort = "80"
+	}
+}
+
 func main() {
 	flag.Set("v", "4")
 	glog.V(2).Info("Starting HTTP server...")
@@ -26,11 +42,8 @@ func main() {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
-	addrPort := os.Getenv("ADDR_PORT")
-	if addrPort == "" {
-		addrPort = "80"
-	}
 	glog.Infof("Env variable ADDR_PORT: %v", addrPort)
+	glog.Infof("Env variable UPSTREAM_PORT: %v", upstreamPort)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", indexHandler)
@@ -121,11 +134,17 @@ func barHandler(w http.ResponseWriter, r *http.Request) {
 
 func foobarHandler(w http.ResponseWriter, r *http.Request) {
 	glog.V(4).Info("Entering foobar handler")
+
+	delay := rand.Intn(20)
+	time.Sleep(time.Millisecond * time.Duration(delay))
+	io.WriteString(w, "===================Details of the http request header:============\n")
+
 	headers := make(http.Header)
 	for k, v := range r.Header {
 		headers[strings.ToLower(k)] = v
 
 		w.Header().Add(k, r.Header.Get(k))
+		io.WriteString(w, fmt.Sprintf("%s=%s\n", k, v))
 	}
 
 	glog.Infof("client ip:port -> %v", r.RemoteAddr)

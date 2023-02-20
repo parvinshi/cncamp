@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: istio-gateway
+  namespace: learn-istio
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - istio.learncn.io
+      port:
+        name: http-learn-istio
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: learn-istio-tls
+        mode: SIMPLE

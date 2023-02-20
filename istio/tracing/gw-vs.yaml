@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpserver-gw
+  namespace: tracing
+spec:
+  gateways:
+    - httpserver-svc1
+  hosts:
+    - '*'
+  http:
+  - match:
+      - uri:
+          exact: /httpserver-svc1/foo
+    route:
+      - destination:
+          host: httpserver-svc1
+          port:
+            number: 8081
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: httpserver-svc1
+  namespace: tracing
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - hosts:
+        - '*'
+      port:
+        name: httpserver-svc1
+        number: 8081
+        protocol: HTTP

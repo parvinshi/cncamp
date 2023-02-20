@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: httpserver
+  namespace: learn-istio
+spec:
+  gateways:
+    - istio-gateway
+  hosts:
+    - istio.learncn.io
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            host: httpserver-svc.learn-istio.svc.cluster.local
+            port:
+              number: 80

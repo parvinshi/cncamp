@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpserver1
+  namespace: tracing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpserver1
+  template:
+    metadata:
+      labels:
+        app: httpserver1
+    spec:    
+      containers:
+        - name: httpserver-container
+          image: parvinshi/httpserver:v4-svc1
+          envFrom:
+          - configMapRef:
+              name: httpserver1-config
+              optional: true
+          resources:
+            limits:
+                cpu: 1000m
+                memory: 1Gi
+            requests:
+                cpu: 100m
+                memory: 100Mi
+          imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "echo Execing the postStart handler"]
+            preStop:
+              exec:
+                command: ["/bin/sh","-c","echo Execing the preStop handler; sleep 3"]
+          readinessProbe:
+            tcpSocket:
+              port: 8081
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+              httpHeaders:
+              - name: Liveness-Probe
+                value: healthz
+            initialDelaySeconds: 5
+            periodSeconds: 60
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8081
+            failureThreshold: 30
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpserver-svc1
+  namespace: tracing
+spec:
+  type: ClusterIP
+  ports:
+    - name: httpserver-svc1
+      protocol: TCP
+      port: 8081
+      targetPort: 8081
+  selector:
+    app: httpserver1      
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: httpserver1-config
+  namespace: tracing
+data:
+  ADDR_PORT: "8081"
+  UPSTREAM_PORT: "8082"
+  LOG_LEVEL: ERROR       
